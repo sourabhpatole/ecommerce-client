@@ -6,7 +6,9 @@ const authRoute = require("./routes/auth");
 const userRoute = require("./routes/users");
 const movieRoute = require("./routes/movies");
 const listRoute = require("./routes/list");
+
 dotenv.config();
+
 mongoose
   .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,

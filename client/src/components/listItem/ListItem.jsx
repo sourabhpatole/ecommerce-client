@@ -3,45 +3,59 @@ import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import AddOutlinedIcon from "@material-ui/icons/AddOutlined";
 import ThumbUpOutlinedIcon from "@material-ui/icons/ThumbUpOutlined";
 import ThumbDownAltOutlinedIcon from "@material-ui/icons/ThumbDownAltOutlined";
-import { useState } from "react";
-export default function ListItem({ index }) {
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+export default function ListItem({ index, item }) {
   const [isHover, setIsHover] = useState(false);
-  const trailer =
-    "https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=139&oauth2_token_id=57447761";
+  const [movie, setMovie] = useState({});
+  useEffect(() => {
+    const getMovie = async () => {
+      try {
+        const res = await axios.get("/movies/find/" + item, {
+          headers: {
+            token:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMjFjOWRjYmEwZTA5ZDNhYmFhNDFkZSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0NjQyMTI2NCwiZXhwIjoxNjQ2ODUzMjY0fQ.FMQ0Jow6DNPk3qeOTVuTe9k4h8q6voyk4W_bDClHwP0",
+          },
+        });
+        setMovie(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getMovie();
+  }, [item]);
+
   return (
-    <div
-      className="listitem"
-      style={{ left: isHover && index * 225 - 50 + index * 2.5 }}
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
-    >
-      <img
-        src="https://occ-0-1723-92.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABU7D36jL6KiLG1xI8Xg_cZK-hYQj1L8yRxbQuB0rcLCnAk8AhEK5EM83QI71bRHUm0qOYxonD88gaThgDaPu7NuUfRg.jpg?r=4ee"
-        alt=""
-      />
-      {isHover && (
-        <>
-          <video src={trailer} autoPlay={true} loop></video>
-          <div className="itemInfo">
-            <div className="icons">
-              <PlayArrowIcon className="icon" />
-              <AddOutlinedIcon className="icon" />
-              <ThumbUpOutlinedIcon className="icon" />
-              <ThumbDownAltOutlinedIcon className="icon" />
+    <Link to={{ pathname: "/watch", movie: movie }}>
+      <div
+        className="listitem"
+        style={{ left: isHover && index * 225 - 50 + index * 2.5 }}
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+      >
+        <img src={movie.img} alt="" />
+        {isHover && (
+          <>
+            <video src={movie.trailer} autoPlay={true} loop></video>
+            <div className="itemInfo">
+              <div className="icons">
+                <PlayArrowIcon className="icon" />
+                <AddOutlinedIcon className="icon" />
+                <ThumbUpOutlinedIcon className="icon" />
+                <ThumbDownAltOutlinedIcon className="icon" />
+              </div>
+              <div className="itemInfoTop">
+                <span>{movie.duration}</span>
+                <span className="limit">+{movie.limit}</span>
+                <span>{movie.year}</span>
+              </div>
+              <div className="desc">{movie.desc}</div>
+              <div className="genre">{movie.genre}</div>
             </div>
-            <div className="itemInfoTop">
-              <span>1 Hour 14 Min</span>
-              <span className="limit">+16</span>
-              <span>1999</span>
-            </div>
-            <div className="desc">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ut
-              veniam molestiae deserunt!
-            </div>
-            <div className="genre">Action</div>
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </Link>
   );
 }

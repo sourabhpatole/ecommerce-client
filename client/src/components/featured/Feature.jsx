@@ -1,7 +1,27 @@
 import "./feature.scss";
 import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import InfoIcon from "@material-ui/icons/Info";
+import { useEffect, useState } from "react";
+import axios from "axios";
 export default function Feature({ type }) {
+  const [content, setContent] = useState({});
+  useEffect(() => {
+    const getRandomContent = async () => {
+      try {
+        const res = await axios.get(`/movies/random?type=${type}`, {
+          headers: {
+            token:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyMjFjOWRjYmEwZTA5ZDNhYmFhNDFkZSIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY0NjQyMzUwNywiZXhwIjoxNjQ2ODU1NTA3fQ.kwleeUu7FpkCcBCcvw_NQ8LLxql34S8k8ADSDJfKOUM",
+          },
+        });
+        setContent(res.data[0]);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getRandomContent();
+  }, [type]);
+  console.log(content);
   return (
     <div className="feature">
       {type && (
@@ -25,21 +45,10 @@ export default function Feature({ type }) {
           </select>
         </div>
       )}
-      <img
-        src="https://images.pexels.com/photos/972217/pexels-photo-972217.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-        alt=""
-      />
+      <img src={content.img} alt="" />
       <div className="info">
-        <img
-          src="https://occ-0-1432-1433.1.nflxso.net/dnm/api/v6/LmEnxtiAuzezXBjYXPuDgfZ4zZQ/AAAABUZdeG1DrMstq-YKHZ-dA-cx2uQN_YbCYx7RABDk0y7F8ZK6nzgCz4bp5qJVgMizPbVpIvXrd4xMBQAuNe0xmuW2WjoeGMDn1cFO.webp?r=df1"
-          alt=""
-        />
-        <span className="desc">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia,
-          blanditiis in provident nobis esse fuga illum omnis, perspiciatis sunt
-          veritatis quas praesentium temporibus commodi nostrum dolorum ex
-          distinctio, sequi voluptatem.
-        </span>
+        <img src={content.imgTitle} alt="" />
+        <span className="desc">{content.desc}</span>
         <div className="button">
           <button className="play">
             <PlayArrowIcon />
