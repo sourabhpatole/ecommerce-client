@@ -20,7 +20,7 @@ export const getMovies = async (dispatch) => {
     dispatch(getMoviesFailure());
   }
 };
-export const deleteMovies = async (id, dispatch) => {
+export const deleteMovie = async (id, dispatch) => {
   dispatch(deleteMovieStart());
   try {
     await axios.delete("/movies/" + id, {
