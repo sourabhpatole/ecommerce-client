@@ -8,6 +8,7 @@ const INITIAL_STATE = {
 };
 
 export const MovieContext = createContext(INITIAL_STATE);
+
 export const MovieContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(MovieReducer, INITIAL_STATE);
 
