@@ -21,7 +21,7 @@ export default function NewMovie() {
 
   const upload = (items) => {
     items.forEach((item) => {
-      const uploadTask = storage.ref(`/items/${item.file.name}`).put(item);
+      const uploadTask = storage.ref(`/items/${item.file.name}`).put(item.file);
       uploadTask.on(
         "state_changed",
         (snapshot) => {

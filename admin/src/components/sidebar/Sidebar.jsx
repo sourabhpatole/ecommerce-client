@@ -4,16 +4,16 @@ import {
   Timeline,
   TrendingUp,
   PermIdentity,
-  Storefront,
-  AttachMoney,
-  BarChart,
+  PlayCircleOutline,
+  List,
   MailOutline,
   DynamicFeed,
   ChatBubbleOutline,
   WorkOutline,
   Report,
+  AddToQueue,
+  QueuePlayNext,
 } from "@material-ui/icons";
-import PlayArrowIcon from "@material-ui/icons/PlayArrow";
 import { Link } from "react-router-dom";
 
 export default function Sidebar() {
@@ -50,18 +50,28 @@ export default function Sidebar() {
             </Link>
             <Link to="/movies" className="link">
               <li className="sidebarListItem">
-                <PlayArrowIcon className="sidebarIcon" />
+                <PlayCircleOutline className="sidebarIcon" />
                 Movies
               </li>
             </Link>
-            <li className="sidebarListItem">
-              <AttachMoney className="sidebarIcon" />
-              Transactions
-            </li>
-            <li className="sidebarListItem">
-              <BarChart className="sidebarIcon" />
-              Reports
-            </li>
+            <Link to="/lists" className="link">
+              <li className="sidebarListItem">
+                <List className="sidebarIcon" />
+                Lists
+              </li>
+            </Link>
+            <Link to="/newMovie" className="link">
+              <li className="sidebarListItem">
+                <AddToQueue className="sidebarIcon" />
+                Add Movie
+              </li>
+            </Link>
+            <Link to="/newList" className="link">
+              <li className="sidebarListItem">
+                <QueuePlayNext className="sidebarIcon" />
+                Add List
+              </li>
+            </Link>
           </ul>
         </div>
         <div className="sidebarMenu">
